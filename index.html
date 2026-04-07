@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Wedding Invitation</title>
+  <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js" crossorigin="anonymous"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500;600&family=Noto+Sans+KR:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap');
 
@@ -830,7 +831,7 @@
     </p>
     <div class="parents-info">
       <p><span class="names">김은호 &middot; 유인자</span> 의 장남 <span class="names">태원</span></p>
-      <p><span class="names">이동선</span> 의 차녀 <span class="names">나나</span></p>
+      <p><span class="names">이동선</span> 의 장녀 <span class="names">나나</span></p>
     </div>
   </section>
 
@@ -1065,22 +1066,6 @@
     </div>
   </section>
 
-
-  <!-- RSVP -->
-  <section class="rsvp-section">
-    <p class="section-title">Attendance</p>
-    <div class="divider"></div>
-    <p style="font-size:14px; color:var(--text-light); margin-bottom:24px; line-height:1.8;">
-      축하의 마음으로 참석 여부를<br>알려주시면 감사하겠습니다.
-    </p>
-    <div class="rsvp-buttons">
-      <button class="rsvp-btn" onclick="selectRsvp(this, '참석')">참석할게요</button>
-      <button class="rsvp-btn" onclick="selectRsvp(this, '미정')">미정이에요</button>
-      <button class="rsvp-btn" onclick="selectRsvp(this, '불참')">어려워요</button>
-    </div>
-    <p class="rsvp-message" id="rsvpMessage"></p>
-  </section>
-
   <!-- Footer -->
   <div class="footer">
     <p class="footer-names">태원 &amp; 나나</p>
@@ -1268,6 +1253,11 @@
       }
     }
 
+    // ===== Kakao SDK Init =====
+    if (window.Kakao && !Kakao.isInitialized()) {
+      Kakao.init('ecba51822aa31530a8e4a9d1dd857bad');
+    }
+
     // ===== Share =====
     function shareKakao() {
       if (window.Kakao && Kakao.isInitialized()) {
@@ -1275,14 +1265,14 @@
           objectType: 'feed',
           content: {
             title: '태원 ♥ 나나 결혼합니다',
-            description: '2026년 5월 23일 토요일 오후 2시',
+            description: '2026년 6월 21일 일요일 오전 11시\nSW컨벤션센터',
             imageUrl: '',
-            link: { mobileWebUrl: location.href, webUrl: location.href }
+            link: { mobileWebUrl: 'https://codenamekkk.github.io/wedding', webUrl: 'https://codenamekkk.github.io/wedding' }
           },
-          buttons: [{ title: '청첩장 보기', link: { mobileWebUrl: location.href, webUrl: location.href } }]
+          buttons: [{ title: '청첩장 보기', link: { mobileWebUrl: 'https://codenamekkk.github.io/wedding', webUrl: 'https://codenamekkk.github.io/wedding' } }]
         });
       } else {
-        showToast('카카오톡 공유를 위해 카카오 API 키를 설정해주세요');
+        showToast('카카오톡 공유 기능을 불러오는 중입니다. 잠시 후 다시 시도해주세요.');
       }
     }
 
