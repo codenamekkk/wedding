@@ -29,6 +29,10 @@
       margin: 0 auto;
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
+      perspective: 1200px;
+      scroll-snap-type: y mandatory;
+      overflow-y: scroll;
+      height: 100vh;
     }
 
     /* Hero Section - Photo Fullscreen */
@@ -45,6 +49,7 @@
       justify-content: flex-end;
       text-align: center;
       padding: 0 20px 80px;
+      scroll-snap-align: start;
     }
 
     .hero::before {
@@ -101,18 +106,27 @@
 
     /* Names Section */
     .names-section {
+      min-height: 100vh;
       padding: 80px 24px;
       text-align: center;
       background: var(--white);
       border-bottom: 1px solid var(--border);
       opacity: 0;
-      transform: translateY(30px);
-      transition: all 1s ease;
+      transform: rotateX(-8deg) translateY(40px);
+      transform-origin: top center;
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+      scroll-snap-align: start;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
 
     .names-section.visible {
       opacity: 1;
-      transform: translateY(0);
+      transform: rotateX(0deg) translateY(0);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.03);
     }
 
     .couple-names {
@@ -147,17 +161,26 @@
       margin: 24px auto 0;
     }
 
-    /* Section Common */
+    /* Section Common - Page Turn Effect + Snap */
     section {
+      min-height: 100vh;
       padding: 80px 24px;
       opacity: 0;
-      transform: translateY(30px);
-      transition: all 0.8s ease;
+      transform: rotateX(-8deg) translateY(40px);
+      transform-origin: top center;
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+      scroll-snap-align: start;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      overflow-y: auto;
     }
 
     section.visible {
       opacity: 1;
-      transform: translateY(0);
+      transform: rotateX(0deg) translateY(0);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.03);
     }
 
     .section-title {
@@ -756,9 +779,15 @@
 
     /* Footer */
     .footer {
+      min-height: 100vh;
       padding: 60px 24px 40px;
       text-align: center;
       background: linear-gradient(180deg, #FAFAF8 0%, #F5F3EF 100%);
+      scroll-snap-align: start;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
 
     .footer-names {
