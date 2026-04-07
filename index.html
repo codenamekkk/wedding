@@ -35,8 +35,14 @@
       max-width: 480px;
       margin: 0 auto;
       height: 100vh;
-      overflow-y: hidden;
+      overflow-y: scroll;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
       perspective: 1200px;
+    }
+
+    .snap-container::-webkit-scrollbar {
+      display: none;
     }
 
     /* Hero Section - Photo Fullscreen */
@@ -1229,22 +1235,44 @@
         if (index < 0 || index >= sections.length || isScrolling) return;
         isScrolling = true;
         currentIndex = index;
-        sections[index].scrollIntoView({ behavior: 'smooth' });
-        setTimeout(() => { isScrolling = false; }, 600);
+        const target = sections[index].offsetTop;
+        const start = container.scrollTop;
+        const diff = target - start;
+        const duration = 300;
+        let startTime = null;
+
+        function step(time) {
+          if (!startTime) startTime = time;
+          const progress = Math.min((time - startTime) / duration, 1);
+          const ease = progress < 0.5
+            ? 2 * progress * progress
+            : -1 + (4 - 2 * progress) * progress;
+          container.scrollTop = start + diff * ease;
+          if (progress < 1) {
+            requestAnimationFrame(step);
+          } else {
+            isScrolling = false;
+          }
+        }
+        requestAnimationFrame(step);
       }
 
-      // Touch events
+      // Touch events - prevent default scroll
       container.addEventListener('touchstart', function(e) {
         touchStartY = e.touches[0].clientY;
       }, { passive: true });
+
+      container.addEventListener('touchmove', function(e) {
+        e.preventDefault();
+      }, { passive: false });
 
       container.addEventListener('touchend', function(e) {
         const diff = touchStartY - e.changedTouches[0].clientY;
         if (Math.abs(diff) > 30) {
           if (diff > 0) {
-            scrollToSection(currentIndex + 1); // swipe up = next
+            scrollToSection(currentIndex + 1);
           } else {
-            scrollToSection(currentIndex - 1); // swipe down = prev
+            scrollToSection(currentIndex - 1);
           }
         }
       }, { passive: true });
