@@ -482,6 +482,17 @@
     /* Location */
     .location-section {
       text-align: center;
+      height: 100vh;
+      min-height: unset;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .account-section {
+      height: 100vh;
+      min-height: unset;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
     .location-name {
@@ -1238,7 +1249,7 @@
         const target = sections[index].offsetTop;
         const start = container.scrollTop;
         const diff = target - start;
-        const duration = 300;
+        const duration = 150;
         let startTime = null;
 
         function step(time) {
@@ -1263,7 +1274,25 @@
       }, { passive: true });
 
       container.addEventListener('touchmove', function(e) {
-        e.preventDefault();
+        const section = sections[currentIndex];
+        const isScrollable = section.scrollHeight > section.clientHeight;
+        if (isScrollable) {
+          const atTop = section.scrollTop <= 0;
+          const atBottom = section.scrollTop + section.clientHeight >= section.scrollHeight - 1;
+          const touchY = e.touches[0].clientY;
+          const goingUp = touchY > touchStartY;
+          const goingDown = touchY < touchStartY;
+          // Allow internal scroll unless at boundary
+          if ((atTop && goingUp) || (atBottom && goingDown)) {
+            e.preventDefault();
+          } else if (!atTop && !atBottom) {
+            return; // allow internal scroll
+          } else {
+            e.preventDefault();
+          }
+        } else {
+          e.preventDefault();
+        }
       }, { passive: false });
 
       container.addEventListener('touchend', function(e) {
