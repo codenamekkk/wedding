@@ -1154,14 +1154,19 @@
       musicPlaying = !musicPlaying;
     }
 
-    // Auto-play on first user interaction
-    document.addEventListener('click', function autoPlay() {
+    // Auto-play on first user interaction (click, touch, or scroll)
+    function autoPlay() {
       bgMusic.play().then(() => {
         musicPlaying = true;
         musicToggle.classList.add('playing');
       }).catch(() => {});
       document.removeEventListener('click', autoPlay);
-    }, { once: true });
+      document.removeEventListener('touchstart', autoPlay);
+      document.removeEventListener('scroll', autoPlay);
+    }
+    document.addEventListener('click', autoPlay, { once: false });
+    document.addEventListener('touchstart', autoPlay, { once: false });
+    document.addEventListener('scroll', autoPlay, { once: false });
 
     // ===== Scroll Animation =====
     const observer = new IntersectionObserver((entries) => {
