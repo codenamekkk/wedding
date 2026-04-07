@@ -77,9 +77,10 @@
     }
 
     .hero-date {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 18px;
-      letter-spacing: 5px;
+      font-family: 'Noto Sans KR', sans-serif;
+      font-weight: 300;
+      font-size: 15px;
+      letter-spacing: 2px;
       color: #fff;
     }
 
@@ -840,7 +841,7 @@
   <div class="hero">
     <div class="hero-info">
       <p class="hero-venue">SW컨벤션센터</p>
-      <p class="hero-date">2026. 06. 21. SUN AM 11:00</p>
+      <p class="hero-date">2026. 06. 21. 일요일 오전 11:00</p>
     </div>
     <p class="scroll-indicator">SCROLL</p>
   </div>
@@ -880,7 +881,7 @@
     <p class="section-title">Calendar</p>
     <div class="divider"></div>
     <div class="calendar-box">
-      <p class="calendar-month">JUNE 2026</p>
+      <p class="calendar-month">2026년 6월</p>
       <div class="calendar-grid">
         <span class="day-header">SUN</span>
         <span class="day-header">MON</span>
@@ -977,6 +978,7 @@
     <div class="map-buttons">
       <a class="map-btn" href="https://map.naver.com/p/search/SW%EC%BB%A8%EB%B2%A4%EC%85%98%EC%84%BC%ED%84%B0" target="_blank">네이버지도</a>
       <a class="map-btn" href="https://map.kakao.com/link/search/SW%EC%BB%A8%EB%B2%A4%EC%85%98%EC%84%BC%ED%84%B0" target="_blank">카카오맵</a>
+      <button class="map-btn" onclick="copyAddress()">주소 복사</button>
     </div>
     <div class="transport-info">
       <p class="transport-title">지하철</p>
@@ -1192,17 +1194,51 @@
       document.getElementById('lightboxImg').src = photos[index];
       document.getElementById('lightbox').classList.add('active');
       document.body.style.overflow = 'hidden';
+      history.pushState({ lightbox: true }, '');
     }
 
-    function closeLightbox() {
+    function closeLightbox(fromPopstate) {
       document.getElementById('lightbox').classList.remove('active');
       document.body.style.overflow = '';
+      if (!fromPopstate && history.state && history.state.lightbox) {
+        history.back();
+      }
     }
 
     function navigateLightbox(dir) {
       currentPhoto = (currentPhoto + dir + photos.length) % photos.length;
       document.getElementById('lightboxImg').src = photos[currentPhoto];
     }
+
+    // Back button closes lightbox
+    window.addEventListener('popstate', function(e) {
+      if (document.getElementById('lightbox').classList.contains('active')) {
+        closeLightbox(true);
+      }
+    });
+
+    // Swipe support for lightbox
+    (function() {
+      let touchStartX = 0;
+      let touchEndX = 0;
+      const lightbox = document.getElementById('lightbox');
+
+      lightbox.addEventListener('touchstart', function(e) {
+        touchStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
+
+      lightbox.addEventListener('touchend', function(e) {
+        touchEndX = e.changedTouches[0].screenX;
+        const diff = touchStartX - touchEndX;
+        if (Math.abs(diff) > 50) {
+          if (diff > 0) {
+            navigateLightbox(1);  // swipe left = next
+          } else {
+            navigateLightbox(-1); // swipe right = prev
+          }
+        }
+      }, { passive: true });
+    })();
 
     // ===== Guestbook =====
     function addGuestbook() {
@@ -1285,6 +1321,21 @@
       } else {
         showToast('카카오톡 공유 기능을 불러오는 중입니다. 잠시 후 다시 시도해주세요.');
       }
+    }
+
+    function copyAddress() {
+      const addr = '서울특별시 종로구 지봉로 19 시즌빌딩 11층 SW컨벤션센터';
+      navigator.clipboard.writeText(addr).then(() => {
+        showToast('주소가 복사되었습니다');
+      }).catch(() => {
+        const ta = document.createElement('textarea');
+        ta.value = addr;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showToast('주소가 복사되었습니다');
+      });
     }
 
     function copyLink() {
