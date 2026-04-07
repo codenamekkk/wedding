@@ -25,14 +25,20 @@
       font-family: 'Noto Sans KR', sans-serif;
       background: var(--bg);
       color: var(--text);
+      margin: 0;
+      -webkit-font-smoothing: antialiased;
+      overflow: hidden;
+      height: 100vh;
+    }
+
+    .snap-container {
       max-width: 480px;
       margin: 0 auto;
-      -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
-      perspective: 1200px;
-      scroll-snap-type: y mandatory;
-      overflow-y: scroll;
       height: 100vh;
+      overflow-y: scroll;
+      scroll-snap-type: y mandatory;
+      -webkit-overflow-scrolling: touch;
+      perspective: 1200px;
     }
 
     /* Hero Section - Photo Fullscreen */
@@ -902,6 +908,7 @@
   </style>
 </head>
 <body>
+<div class="snap-container" id="snapContainer">
 
   <!-- Hero -->
   <div class="hero">
@@ -1151,6 +1158,8 @@
     <p class="copyright">WEDDING INVITATION</p>
   </div>
 
+</div><!-- end snap-container -->
+
   <!-- Toast -->
   <div class="toast" id="toast"></div>
 
@@ -1191,11 +1200,11 @@
       }).catch(() => {});
       document.removeEventListener('click', autoPlay);
       document.removeEventListener('touchstart', autoPlay);
-      document.removeEventListener('scroll', autoPlay);
+      document.getElementById('snapContainer').removeEventListener('scroll', autoPlay);
     }
     document.addEventListener('click', autoPlay, { once: false });
     document.addEventListener('touchstart', autoPlay, { once: false });
-    document.addEventListener('scroll', autoPlay, { once: false });
+    document.getElementById('snapContainer').addEventListener('scroll', autoPlay, { once: false });
 
     // ===== Scroll Animation =====
     const observer = new IntersectionObserver((entries) => {
