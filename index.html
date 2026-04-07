@@ -362,24 +362,61 @@
 
     /* Lightbox */
     .lightbox {
-      display: none;
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0,0,0,0.95);
+      background: rgba(0,0,0,0);
       z-index: 1000;
+      display: flex;
       align-items: center;
       justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: background 0.4s ease, opacity 0.4s ease;
     }
 
-    .lightbox.active { display: flex; }
+    .lightbox.active {
+      opacity: 1;
+      pointer-events: auto;
+      background: rgba(0,0,0,0.95);
+    }
 
     .lightbox img {
       max-width: 90%;
       max-height: 85vh;
       object-fit: contain;
+      transform: scale(0.85);
+      opacity: 0;
+      transition: transform 0.4s ease, opacity 0.4s ease;
+    }
+
+    .lightbox.active img {
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    .lightbox img.slide-left {
+      animation: slideLeft 0.3s ease forwards;
+    }
+
+    .lightbox img.slide-right {
+      animation: slideRight 0.3s ease forwards;
+    }
+
+    @keyframes slideLeft {
+      0% { transform: translateX(0); opacity: 1; }
+      40% { transform: translateX(-60px); opacity: 0; }
+      41% { transform: translateX(60px); opacity: 0; }
+      100% { transform: translateX(0); opacity: 1; }
+    }
+
+    @keyframes slideRight {
+      0% { transform: translateX(0); opacity: 1; }
+      40% { transform: translateX(60px); opacity: 0; }
+      41% { transform: translateX(-60px); opacity: 0; }
+      100% { transform: translateX(0); opacity: 1; }
     }
 
     .lightbox-close {
@@ -1088,7 +1125,44 @@
   <!-- Toast -->
   <div class="toast" id="toast"></div>
 
+  <!-- Music -->
+  <audio id="bgMusic" loop preload="auto">
+    <source src="잔잔한_따듯한_희망적인_노래.mp3" type="audio/mpeg">
+  </audio>
+  <button class="music-toggle" id="musicToggle" onclick="toggleMusic()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M9 18V5l12-2v13"/>
+      <circle cx="6" cy="18" r="3"/>
+      <circle cx="18" cy="16" r="3"/>
+    </svg>
+  </button>
+
   <script>
+    // ===== Music Player =====
+    const bgMusic = document.getElementById('bgMusic');
+    const musicToggle = document.getElementById('musicToggle');
+    let musicPlaying = false;
+
+    function toggleMusic() {
+      if (musicPlaying) {
+        bgMusic.pause();
+        musicToggle.classList.remove('playing');
+      } else {
+        bgMusic.play();
+        musicToggle.classList.add('playing');
+      }
+      musicPlaying = !musicPlaying;
+    }
+
+    // Auto-play on first user interaction
+    document.addEventListener('click', function autoPlay() {
+      bgMusic.play().then(() => {
+        musicPlaying = true;
+        musicToggle.classList.add('playing');
+      }).catch(() => {});
+      document.removeEventListener('click', autoPlay);
+    }, { once: true });
+
     // ===== Scroll Animation =====
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -1206,8 +1280,17 @@
     }
 
     function navigateLightbox(dir) {
-      currentPhoto = (currentPhoto + dir + photos.length) % photos.length;
-      document.getElementById('lightboxImg').src = photos[currentPhoto];
+      const img = document.getElementById('lightboxImg');
+      img.classList.remove('slide-left', 'slide-right');
+      void img.offsetWidth; // force reflow
+      img.classList.add(dir > 0 ? 'slide-left' : 'slide-right');
+      setTimeout(() => {
+        currentPhoto = (currentPhoto + dir + photos.length) % photos.length;
+        img.src = photos[currentPhoto];
+      }, 120);
+      setTimeout(() => {
+        img.classList.remove('slide-left', 'slide-right');
+      }, 300);
     }
 
     // Back button closes lightbox
