@@ -35,9 +35,7 @@
       max-width: 480px;
       margin: 0 auto;
       height: 100vh;
-      overflow-y: scroll;
-      scroll-snap-type: y mandatory;
-      -webkit-overflow-scrolling: touch;
+      overflow-y: hidden;
       perspective: 1200px;
     }
 
@@ -1218,6 +1216,49 @@
     document.querySelectorAll('section, .names-section').forEach(section => {
       observer.observe(section);
     });
+
+    // ===== One-Page Scroll Control =====
+    (function() {
+      const container = document.getElementById('snapContainer');
+      const sections = container.querySelectorAll('.hero, .names-section, section, .footer');
+      let currentIndex = 0;
+      let isScrolling = false;
+      let touchStartY = 0;
+
+      function scrollToSection(index) {
+        if (index < 0 || index >= sections.length || isScrolling) return;
+        isScrolling = true;
+        currentIndex = index;
+        sections[index].scrollIntoView({ behavior: 'smooth' });
+        setTimeout(() => { isScrolling = false; }, 600);
+      }
+
+      // Touch events
+      container.addEventListener('touchstart', function(e) {
+        touchStartY = e.touches[0].clientY;
+      }, { passive: true });
+
+      container.addEventListener('touchend', function(e) {
+        const diff = touchStartY - e.changedTouches[0].clientY;
+        if (Math.abs(diff) > 30) {
+          if (diff > 0) {
+            scrollToSection(currentIndex + 1); // swipe up = next
+          } else {
+            scrollToSection(currentIndex - 1); // swipe down = prev
+          }
+        }
+      }, { passive: true });
+
+      // Mouse wheel
+      container.addEventListener('wheel', function(e) {
+        e.preventDefault();
+        if (e.deltaY > 0) {
+          scrollToSection(currentIndex + 1);
+        } else {
+          scrollToSection(currentIndex - 1);
+        }
+      }, { passive: false });
+    })();
 
     // ===== D-Day Counter =====
     function updateDday() {
