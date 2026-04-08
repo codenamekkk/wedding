@@ -29,15 +29,23 @@
       -webkit-font-smoothing: antialiased;
       overflow: hidden;
       height: 100vh;
+      height: 100dvh;
     }
 
     .snap-container {
       max-width: 480px;
       margin: 0 auto;
       height: 100vh;
-      overflow: hidden;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
       perspective: 1200px;
       position: relative;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .snap-container::-webkit-scrollbar {
+      display: none;
     }
 
     /* Hero Section - Photo Fullscreen */
@@ -1115,56 +1123,6 @@
       observer.observe(section);
     });
 
-    // ===== One-Page Scroll Control =====
-    (function() {
-      const container = document.getElementById('snapContainer');
-      const sections = Array.from(container.querySelectorAll('.hero, .names-section, section, .footer'));
-      let currentIndex = 0;
-      let isScrolling = false;
-      let touchStartY = 0;
-
-      // Create inner wrapper for transform-based scrolling
-      const wrapper = document.createElement('div');
-      wrapper.id = 'snapWrapper';
-      wrapper.style.cssText = 'transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1); will-change: transform;';
-      while (container.firstChild) {
-        wrapper.appendChild(container.firstChild);
-      }
-      container.appendChild(wrapper);
-
-      function scrollToSection(index) {
-        if (index < 0 || index >= sections.length || isScrolling) return;
-        isScrolling = true;
-        currentIndex = index;
-        const offset = sections[index].offsetTop;
-        wrapper.style.transform = 'translateY(-' + offset + 'px)';
-        setTimeout(function() { isScrolling = false; }, 300);
-      }
-
-      // Touch events
-      container.addEventListener('touchstart', function(e) {
-        touchStartY = e.touches[0].clientY;
-      }, { passive: false });
-
-      container.addEventListener('touchmove', function(e) {
-        e.preventDefault();
-      }, { passive: false });
-
-      container.addEventListener('touchend', function(e) {
-        if (isScrolling) return;
-        const diff = touchStartY - e.changedTouches[0].clientY;
-        if (Math.abs(diff) > 30) {
-          scrollToSection(diff > 0 ? currentIndex + 1 : currentIndex - 1);
-        }
-      }, { passive: true });
-
-      // Mouse wheel
-      container.addEventListener('wheel', function(e) {
-        e.preventDefault();
-        if (isScrolling) return;
-        scrollToSection(e.deltaY > 0 ? currentIndex + 1 : currentIndex - 1);
-      }, { passive: false });
-    })();
 
     // ===== D-Day Counter =====
     function updateDday() {
