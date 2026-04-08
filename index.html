@@ -1356,10 +1356,10 @@
       });
     }
   </script>
-  <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=d44321f235374c5e1f4af4f7f6163386&autoload=false"></script>
   <script>
-    kakao.maps.load(function () {
+    function initKakaoMap() {
       var container = document.getElementById('kakao-map');
+      if (!container) return;
       var options = {
         center: new kakao.maps.LatLng(37.5717, 127.0126),
         level: 3
@@ -1369,7 +1369,16 @@
         position: new kakao.maps.LatLng(37.5717, 127.0126)
       });
       marker.setMap(map);
-    });
+    }
+
+    (function loadKakaoSDK() {
+      var script = document.createElement('script');
+      script.src = 'https://dapi.kakao.com/v2/maps/sdk.js?appkey=d44321f235374c5e1f4af4f7f6163386&autoload=false';
+      script.onload = function () {
+        kakao.maps.load(initKakaoMap);
+      };
+      document.head.appendChild(script);
+    })();
   </script>
 </body>
 </html>
