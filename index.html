@@ -322,17 +322,20 @@
     }
 
     .dday-item .number {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 36px;
+      font-family: 'Noto Sans KR', sans-serif;
+      font-weight: 300;
+      font-size: 32px;
       color: var(--primary);
       line-height: 1;
     }
 
     .dday-item .label {
-      font-size: 11px;
+      font-family: 'Noto Sans KR', sans-serif;
+      font-weight: 300;
+      font-size: 12px;
       color: var(--text-light);
-      letter-spacing: 2px;
-      margin-top: 4px;
+      letter-spacing: 1px;
+      margin-top: 6px;
     }
 
     /* Gallery */
@@ -824,12 +827,13 @@
     <p class="section-title">Invitation</p>
     <div class="divider"></div>
     <p class="greeting-text">
-      서로가 마주보며 다져온 사랑을<br>
-      이제 함께 한 곳을 바라보며<br>
-      걸어가고자 합니다.<br><br>
-      저희 두 사람이 사랑의 이름으로<br>
-      지켜나갈 수 있게<br>
-      축복해 주시면 감사하겠습니다.
+      2022년 봄, 처음 마주한 두 사람이<br>
+      서로의 하루가 되고<br>
+      서로의 내일이 되었습니다.<br><br>
+      이제 평생을 의지하고 위로하며<br>
+      오늘처럼 함께 걸어가기로 약속합니다.<br><br>
+      저희의 약속을 축복해 주시면<br>
+      더없이 감사하겠습니다.
     </p>
     <div class="parents-info">
       <p><span class="names">김은호 &middot; 유인자</span> 의 장남 <span class="names">태원</span></p>
@@ -1029,7 +1033,7 @@
 
   <!-- Footer -->
   <div class="footer">
-    <p class="footer-names">태원 &amp; 나나</p>
+    <p class="footer-names">태원 <span style="color:var(--primary-light); font-size:16px;">&hearts;</span> 나나</p>
     <p class="footer-date">2026. 06. 21</p>
     <div class="share-buttons">
       <button class="share-btn" onclick="shareKakao()">카카오톡 공유</button>
@@ -1179,10 +1183,10 @@
       const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
       document.getElementById('ddayCounter').innerHTML = `
-        <div class="dday-item"><div class="number">${days}</div><div class="label">DAYS</div></div>
-        <div class="dday-item"><div class="number">${hours}</div><div class="label">HOURS</div></div>
-        <div class="dday-item"><div class="number">${minutes}</div><div class="label">MIN</div></div>
-        <div class="dday-item"><div class="number">${seconds}</div><div class="label">SEC</div></div>
+        <div class="dday-item"><div class="number">${days}</div><div class="label">일</div></div>
+        <div class="dday-item"><div class="number">${hours}</div><div class="label">시간</div></div>
+        <div class="dday-item"><div class="number">${minutes}</div><div class="label">분</div></div>
+        <div class="dday-item"><div class="number">${seconds}</div><div class="label">초</div></div>
       `;
     }
 
