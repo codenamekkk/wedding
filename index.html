@@ -485,11 +485,9 @@
       overflow: hidden;
     }
 
-    .map-inline iframe {
+    .map-inline #kakao-map {
       width: 100%;
       height: 100%;
-      border: none;
-      filter: grayscale(20%) contrast(0.95);
     }
 
 
@@ -928,10 +926,7 @@
       (지번: 종로구 창신동 328-18)
     </p>
     <div class="map-inline">
-      <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d500!2d127.01261037706054!3d37.571699872037186!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca33764b41d69%3A0x2c3cf1ab4d71e230!2zU1fsu6jrsqTshZjshLzthLA!5e0!3m2!1sko!2skr!4v1775523434685!5m2!1sko!2skr"
-        style="border:0;" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade">
-      </iframe>
+      <div id="kakao-map"></div>
     </div>
     <div class="map-buttons">
       <a class="map-btn" href="https://map.naver.com/p/search/SW%EC%BB%A8%EB%B2%A4%EC%85%98%EC%84%BC%ED%84%B0" target="_blank">네이버지도</a>
@@ -1360,6 +1355,21 @@
         showToast('링크 복사에 실패했습니다');
       });
     }
+  </script>
+  <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=d44321f235374c5e1f4af4f7f6163386&autoload=false"></script>
+  <script>
+    kakao.maps.load(function () {
+      var container = document.getElementById('kakao-map');
+      var options = {
+        center: new kakao.maps.LatLng(37.5717, 127.0126),
+        level: 3
+      };
+      var map = new kakao.maps.Map(container, options);
+      var marker = new kakao.maps.Marker({
+        position: new kakao.maps.LatLng(37.5717, 127.0126)
+      });
+      marker.setMap(map);
+    });
   </script>
 </body>
 </html>
