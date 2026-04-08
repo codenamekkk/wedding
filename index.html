@@ -482,10 +482,41 @@
     /* Location */
     .location-section {
       text-align: center;
-      height: 100vh;
-      min-height: unset;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
+    }
+
+    /* Map Overlay */
+    .map-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.95);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .map-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .map-overlay-content {
+      width: 90%;
+      height: 70vh;
+      border-radius: 4px;
+      overflow: hidden;
+      transform: scale(0.9);
+      transition: transform 0.3s ease;
+    }
+
+    .map-overlay.active .map-overlay-content {
+      transform: scale(1);
     }
 
     .account-section {
@@ -509,31 +540,17 @@
       margin-bottom: 24px;
     }
 
-    .map-container {
-      width: 100%;
-      height: 280px;
-      background: #F0EDE8;
-      border: 1px solid var(--border);
-      border-radius: 2px;
-      overflow: hidden;
-      margin-bottom: 16px;
-    }
-
-    .map-container iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
 
     .map-buttons {
       display: flex;
-      gap: 8px;
+      gap: 6px;
       justify-content: center;
       margin-top: 16px;
+      flex-wrap: nowrap;
     }
 
     .map-btn {
-      padding: 10px 20px;
+      padding: 10px 14px;
       border: 1px solid var(--border);
       background: var(--white);
       font-size: 13px;
@@ -1054,31 +1071,23 @@
     <p class="location-name">SW컨벤션센터</p>
     <p class="location-detail">
       서울특별시 종로구 지봉로 19 시즌빌딩 11층<br>
-      (지번: 서울특별시 종로구 창신동 328-18)<br>
-      우편번호 03121
+      (지번: 종로구 창신동 328-18)
     </p>
-    <div class="map-container">
-      <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d500!2d127.01261037706054!3d37.571699872037186!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca33764b41d69%3A0x2c3cf1ab4d71e230!2zU1fsu6jrsqTshZjshLzthLA!5e0!3m2!1sko!2skr!4v1775523434685!5m2!1sko!2skr"
-        style="border:0;" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade">
-      </iframe>
-    </div>
     <div class="map-buttons">
-      <a class="map-btn" href="https://map.naver.com/p/search/SW%EC%BB%A8%EB%B2%A4%EC%85%98%EC%84%BC%ED%84%B0" target="_blank">네이버지도</a>
-      <a class="map-btn" href="https://map.kakao.com/link/search/SW%EC%BB%A8%EB%B2%A4%EC%85%98%EC%84%BC%ED%84%B0" target="_blank">카카오맵</a>
-      <button class="map-btn" onclick="copyAddress()">주소 복사</button>
+      <button class="map-btn" onclick="openMapOverlay()">지도</button>
+      <a class="map-btn" href="https://map.naver.com/p/search/SW%EC%BB%A8%EB%B2%A4%EC%85%98%EC%84%BC%ED%84%B0" target="_blank">네이버</a>
+      <a class="map-btn" href="https://map.kakao.com/link/search/SW%EC%BB%A8%EB%B2%A4%EC%85%98%EC%84%BC%ED%84%B0" target="_blank">카카오</a>
+      <button class="map-btn" onclick="copyAddress()">주소복사</button>
     </div>
     <div class="transport-info">
       <p class="transport-title">지하철</p>
       <p>1, 6호선 동묘앞역 6번 출구 바로 앞</p>
       <p>4호선 동대문역 4번 출구 도보 5분 이내</p>
       <p class="transport-title">버스</p>
-      <p>동묘앞역 6번 출구 하차: 142</p>
-      <p>동묘앞역 하차: 1014</p>
+      <p>동묘앞역 6번 출구 하차: 142 / 동묘앞역 하차: 1014</p>
       <p>동대문역.흥인지문(중) 하차: 101, 103, 111, 105, 144, 152, 201, 206, 261, 262, 270, 271, 370, 420, 720, 721, 2112, 2233, 9301, 6002</p>
       <p class="transport-title">자가용</p>
       <p>네비게이션 "SW컨벤션센터" 검색</p>
-      <p>주소: 서울특별시 종로구 지봉로 19 시즌빌딩 11층</p>
     </div>
   </section>
 
@@ -1174,6 +1183,18 @@
   </div>
 
 </div><!-- end snap-container -->
+
+  <!-- Map Overlay -->
+  <div class="map-overlay" id="mapOverlay">
+    <button class="lightbox-close" onclick="closeMapOverlay()">&times;</button>
+    <div class="map-overlay-content">
+      <iframe
+        id="mapIframe"
+        src=""
+        style="border:0;width:100%;height:100%;" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+    </div>
+  </div>
 
   <!-- Toast -->
   <div class="toast" id="toast"></div>
@@ -1545,6 +1566,19 @@
       } else {
         showToast('카카오톡 공유 기능을 불러오는 중입니다. 잠시 후 다시 시도해주세요.');
       }
+    }
+
+    // ===== Map Overlay =====
+    const mapSrc = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d500!2d127.01261037706054!3d37.571699872037186!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca33764b41d69%3A0x2c3cf1ab4d71e230!2zU1fsu6jrsqTshZjshLzthLA!5e0!3m2!1sko!2skr!4v1775523434685!5m2!1sko!2skr';
+
+    function openMapOverlay() {
+      document.getElementById('mapIframe').src = mapSrc;
+      document.getElementById('mapOverlay').classList.add('active');
+    }
+
+    function closeMapOverlay() {
+      document.getElementById('mapOverlay').classList.remove('active');
+      document.getElementById('mapIframe').src = '';
     }
 
     function copyAddress() {
