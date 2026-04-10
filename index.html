@@ -317,38 +317,77 @@
     }
 
     .calendar-time .detail {
+      display: inline-block;
       font-size: 13px;
       color: var(--text-light);
-      margin-top: 4px;
+      margin-top: 12px;
     }
 
     /* D-Day Counter */
     .dday-counter {
-      display: flex;
-      justify-content: center;
-      gap: 24px;
       margin-top: 32px;
+      max-width: 340px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+    }
+
+    .dday-boxes {
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .dday-item {
+      background: #f2f0ec;
+      border-radius: 12px;
+      flex: 1;
+      padding: 12px 0 14px;
       text-align: center;
+    }
+
+    .dday-item .label {
+      font-family: 'Noto Sans KR', sans-serif;
+      font-weight: 400;
+      font-size: 11px;
+      color: #999;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
     }
 
     .dday-item .number {
       font-family: 'Noto Serif KR', serif;
-      font-weight: 300;
-      font-size: 32px;
-      color: var(--primary);
+      font-weight: 600;
+      font-size: 28px;
+      color: var(--text);
       line-height: 1;
     }
 
-    .dday-item .label {
+    .dday-colon {
       font-family: 'Noto Serif KR', serif;
+      font-size: 24px;
       font-weight: 300;
-      font-size: 12px;
-      color: var(--text-light);
+      color: #bbb;
+      padding-top: 12px;
+    }
+
+    .dday-message {
+      margin-top: 24px;
+      font-family: 'Noto Serif KR', serif;
+      font-size: 14px;
+      color: var(--text);
       letter-spacing: 1px;
-      margin-top: 6px;
+    }
+
+    .dday-message .heart {
+      color: #e74c3c;
+      margin: 0 2px;
+    }
+
+    .dday-message .highlight {
+      color: var(--primary);
+      font-weight: 600;
     }
 
     /* Gallery */
@@ -593,54 +632,33 @@
     .account-card {
       border: 1px solid var(--border);
       border-radius: 2px;
-      overflow: hidden;
+      padding: 16px;
       margin-bottom: 12px;
     }
 
-    .account-card-header {
-      padding: 14px 16px;
+    .account-card .name-row {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      cursor: pointer;
-      transition: background 0.2s;
+      margin-bottom: 10px;
     }
 
-    .account-card-header:hover {
-      background: #FAFAF8;
-    }
-
-    .account-card-header .name {
+    .account-card .name {
       font-size: 14px;
     }
 
-    .account-card-header .relation {
+    .account-card .relation {
       font-size: 12px;
       color: var(--text-light);
       margin-left: 8px;
-    }
-
-    .account-card-header .toggle-icon {
-      font-size: 12px;
-      color: var(--text-light);
-      transition: transform 0.3s;
-    }
-
-    .account-card-body {
-      display: none;
-      padding: 16px;
-      background: #FAFAF8;
-      border-top: 1px solid var(--border);
-    }
-
-    .account-card-body.open {
-      display: block;
     }
 
     .account-info {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      background: #FAFAF8;
+      border-radius: 2px;
+      padding: 10px 12px;
     }
 
     .account-info .bank-detail {
@@ -818,7 +836,7 @@
 
   <!-- Greeting -->
   <section class="greeting">
-    <p class="section-title">Invitation</p>
+    <p class="section-title">소중한 날에 초대합니다</p>
     <div class="divider"></div>
     <p class="greeting-text">
       2022년 봄, 처음 마주한 두 사람이<br>
@@ -837,7 +855,7 @@
 
   <!-- Calendar -->
   <section class="calendar-section">
-    <p class="section-title">Calendar</p>
+    <p class="section-title">함께하는 그 날</p>
     <div class="divider"></div>
     <div class="calendar-box">
       <p class="calendar-month">2026년 6월</p>
@@ -892,7 +910,7 @@
 
   <!-- Gallery -->
   <section class="gallery-section">
-    <p class="section-title">Gallery</p>
+    <p class="section-title">우리의 순간</p>
     <div class="divider"></div>
     <div class="gallery-grid" id="galleryGrid">
       <div class="photo" onclick="openLightbox(0)">
@@ -920,7 +938,7 @@
 
   <!-- Location -->
   <section class="location-section">
-    <p class="section-title">Location</p>
+    <p class="section-title">오시는 길</p>
     <div class="divider"></div>
     <p class="location-name">SW컨벤션센터</p>
     <p class="location-detail">
@@ -952,7 +970,7 @@
 
   <!-- Account -->
   <section class="account-section">
-    <p class="section-title">Gift</p>
+    <p class="section-title">마음 전하기</p>
     <div class="divider"></div>
     <p style="text-align:center; font-size:14px; color:var(--text-light); margin-bottom:24px; line-height:1.8;">
       참석이 어려우신 분들을 위해<br>
@@ -965,66 +983,51 @@
 
     <div id="groomAccounts">
       <div class="account-card">
-        <div class="account-card-header" onclick="toggleAccount(this)">
-          <span><span class="name">김태원</span><span class="relation">신랑</span></span>
-          <span class="toggle-icon">&#9662;</span>
+        <div class="name-row">
+          <span class="name">김태원</span><span class="relation">신랑</span>
         </div>
-        <div class="account-card-body">
-          <div class="account-info">
-            <span class="bank-detail">카카오뱅크 3333-00-1234567</span>
-            <button class="copy-btn" onclick="copyAccount('카카오뱅크 3333-00-1234567')">복사</button>
-          </div>
+        <div class="account-info">
+          <span class="bank-detail">카카오뱅크 3333-00-1234567</span>
+          <button class="copy-btn" onclick="copyAccount('카카오뱅크 3333-00-1234567')">복사</button>
         </div>
       </div>
       <div class="account-card">
-        <div class="account-card-header" onclick="toggleAccount(this)">
-          <span><span class="name">김은호</span><span class="relation">아버지</span></span>
-          <span class="toggle-icon">&#9662;</span>
+        <div class="name-row">
+          <span class="name">김은호</span><span class="relation">아버지</span>
         </div>
-        <div class="account-card-body">
-          <div class="account-info">
-            <span class="bank-detail">국민은행 123-456-789012</span>
-            <button class="copy-btn" onclick="copyAccount('국민은행 123-456-789012')">복사</button>
-          </div>
+        <div class="account-info">
+          <span class="bank-detail">국민은행 123-456-789012</span>
+          <button class="copy-btn" onclick="copyAccount('국민은행 123-456-789012')">복사</button>
         </div>
       </div>
       <div class="account-card">
-        <div class="account-card-header" onclick="toggleAccount(this)">
-          <span><span class="name">유인자</span><span class="relation">어머니</span></span>
-          <span class="toggle-icon">&#9662;</span>
+        <div class="name-row">
+          <span class="name">유인자</span><span class="relation">어머니</span>
         </div>
-        <div class="account-card-body">
-          <div class="account-info">
-            <span class="bank-detail">신한은행 110-123-456789</span>
-            <button class="copy-btn" onclick="copyAccount('신한은행 110-123-456789')">복사</button>
-          </div>
+        <div class="account-info">
+          <span class="bank-detail">신한은행 110-123-456789</span>
+          <button class="copy-btn" onclick="copyAccount('신한은행 110-123-456789')">복사</button>
         </div>
       </div>
     </div>
 
     <div id="brideAccounts" style="display:none;">
       <div class="account-card">
-        <div class="account-card-header" onclick="toggleAccount(this)">
-          <span><span class="name">정나나</span><span class="relation">신부</span></span>
-          <span class="toggle-icon">&#9662;</span>
+        <div class="name-row">
+          <span class="name">정나나</span><span class="relation">신부</span>
         </div>
-        <div class="account-card-body">
-          <div class="account-info">
-            <span class="bank-detail">카카오뱅크 3333-00-7654321</span>
-            <button class="copy-btn" onclick="copyAccount('카카오뱅크 3333-00-7654321')">복사</button>
-          </div>
+        <div class="account-info">
+          <span class="bank-detail">카카오뱅크 3333-00-7654321</span>
+          <button class="copy-btn" onclick="copyAccount('카카오뱅크 3333-00-7654321')">복사</button>
         </div>
       </div>
       <div class="account-card">
-        <div class="account-card-header" onclick="toggleAccount(this)">
-          <span><span class="name">이동선</span><span class="relation">어머니</span></span>
-          <span class="toggle-icon">&#9662;</span>
+        <div class="name-row">
+          <span class="name">이동선</span><span class="relation">어머니</span>
         </div>
-        <div class="account-card-body">
-          <div class="account-info">
-            <span class="bank-detail">하나은행 123-456789-01234</span>
-            <button class="copy-btn" onclick="copyAccount('하나은행 123-456789-01234')">복사</button>
-          </div>
+        <div class="account-info">
+          <span class="bank-detail">하나은행 123-456789-01234</span>
+          <button class="copy-btn" onclick="copyAccount('하나은행 123-456789-01234')">복사</button>
         </div>
       </div>
     </div>
@@ -1124,11 +1127,18 @@
       const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
+      const pad = n => String(n).padStart(2, '0');
       document.getElementById('ddayCounter').innerHTML = `
-        <div class="dday-item"><div class="number">${days}</div><div class="label">일</div></div>
-        <div class="dday-item"><div class="number">${hours}</div><div class="label">시간</div></div>
-        <div class="dday-item"><div class="number">${minutes}</div><div class="label">분</div></div>
-        <div class="dday-item"><div class="number">${seconds}</div><div class="label">초</div></div>
+        <div class="dday-boxes">
+          <div class="dday-item"><div class="label">DAYS</div><div class="number">${pad(days)}</div></div>
+          <span class="dday-colon">:</span>
+          <div class="dday-item"><div class="label">HOUR</div><div class="number">${pad(hours)}</div></div>
+          <span class="dday-colon">:</span>
+          <div class="dday-item"><div class="label">MIN</div><div class="number">${pad(minutes)}</div></div>
+          <span class="dday-colon">:</span>
+          <div class="dday-item"><div class="label">SEC</div><div class="number">${pad(seconds)}</div></div>
+        </div>
+        <p class="dday-message">태원 <span class="heart">&#10084;</span> 나나의 결혼식이 <span class="highlight">${days}일</span> 남았습니다.</p>
       `;
     }
 
@@ -1159,14 +1169,6 @@
       }
     }
 
-    function toggleAccount(el) {
-      const body = el.nextElementSibling;
-      const icon = el.querySelector('.toggle-icon');
-      const isOpen = body.classList.contains('open');
-
-      body.classList.toggle('open');
-      icon.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
-    }
 
     function copyAccount(text) {
       navigator.clipboard.writeText(text).then(() => {
