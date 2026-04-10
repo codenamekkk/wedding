@@ -165,6 +165,15 @@
       color: var(--primary-light);
       margin: 0 12px;
       font-size: 20px;
+      animation: heartbeat 1.2s ease-in-out infinite;
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      14% { transform: scale(1.25); }
+      28% { transform: scale(1); }
+      42% { transform: scale(1.2); }
+      56% { transform: scale(1); }
     }
 
     .couple-quote {
