@@ -1,0 +1,4 @@
+.claude/
+.vscode/
+images/originals/
+compress_images.py
