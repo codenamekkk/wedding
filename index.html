@@ -443,6 +443,16 @@
       position: relative;
     }
 
+    .gallery-grid .photo--full {
+      grid-column: span 2;
+      aspect-ratio: 4 / 3;
+    }
+
+    .gallery-grid .photo--tall {
+      grid-row: span 2;
+      aspect-ratio: 1 / 2;
+    }
+
     .gallery-grid .photo picture,
     .gallery-grid .photo img {
       width: 100%;
@@ -956,10 +966,10 @@
     <p class="section-title">우리의 순간</p>
     <div class="divider"></div>
     <div class="gallery-grid" id="galleryGrid">
-      <div class="photo" onclick="openLightbox(0)">
+      <div class="photo photo--full" onclick="openLightbox(0)">
         <picture>
           <source srcset="images/1번.webp" type="image/webp">
-          <img src="images/1번.jpg" loading="lazy" decoding="async" alt="웨딩 사진 1">
+          <img src="images/1번.jpg" loading="lazy" decoding="async" alt="웨딩 사진 1" style="object-position: center 30%;">
         </picture>
       </div>
       <div class="photo" onclick="openLightbox(1)">
@@ -986,13 +996,13 @@
           <img src="images/5번.jpg" loading="lazy" decoding="async" alt="웨딩 사진 5">
         </picture>
       </div>
-      <div class="photo" onclick="openLightbox(5)">
+      <div class="photo photo--full" onclick="openLightbox(5)">
         <picture>
           <source srcset="images/6번.webp" type="image/webp">
-          <img src="images/6번.jpg" loading="lazy" decoding="async" alt="웨딩 사진 6">
+          <img src="images/6번.jpg" loading="lazy" decoding="async" alt="웨딩 사진 6" style="object-position: center 30%;">
         </picture>
       </div>
-      <div class="photo" onclick="openLightbox(6)">
+      <div class="photo photo--tall" onclick="openLightbox(6)">
         <picture>
           <source srcset="images/7번.webp" type="image/webp">
           <img src="images/7번.jpg" loading="lazy" decoding="async" alt="웨딩 사진 7">
@@ -1007,13 +1017,19 @@
       <div class="photo" onclick="openLightbox(8)">
         <picture>
           <source srcset="images/9번.webp" type="image/webp">
-          <img src="images/9번.jpeg" loading="lazy" decoding="async" alt="웨딩 사진 9">
+          <img src="images/9번.jpg" loading="lazy" decoding="async" alt="웨딩 사진 9">
         </picture>
       </div>
       <div class="photo" onclick="openLightbox(9)">
         <picture>
           <source srcset="images/10번.webp" type="image/webp">
           <img src="images/10번.jpg" loading="lazy" decoding="async" alt="웨딩 사진 10">
+        </picture>
+      </div>
+      <div class="photo" onclick="openLightbox(10)">
+        <picture>
+          <source srcset="images/11번.webp" type="image/webp">
+          <img src="images/11번.jpg" loading="lazy" decoding="async" alt="웨딩 사진 11">
         </picture>
       </div>
     </div>
@@ -1299,8 +1315,9 @@
       'images/6번.jpg',
       'images/7번.jpg',
       'images/8번.jpg',
-      'images/9번.jpeg',
-      'images/10번.jpg'
+      'images/9번.jpg',
+      'images/10번.jpg',
+      'images/11번.jpg'
     ];
 
     (function upgradeToWebp() {
