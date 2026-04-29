@@ -286,21 +286,44 @@
     }
 
     .calendar-box {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: 2px;
-      padding: 32px 20px;
-      max-width: 340px;
+      width: 100%;
+      max-width: 380px;
       margin: 0 auto;
+      padding: 4px 0 0;
+      position: relative;
     }
 
     .calendar-month {
       font-family: 'Noto Serif KR', serif;
       font-weight: 300;
-      font-size: 16px;
-      letter-spacing: 3px;
+      font-size: 17px;
+      letter-spacing: 5px;
       color: var(--primary);
-      margin-bottom: 20px;
+      margin-bottom: 6px;
+    }
+
+    .calendar-month-en {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-family: 'Noto Serif KR', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: 11px;
+      letter-spacing: 4px;
+      color: var(--primary-light);
+      text-transform: uppercase;
+      margin-bottom: 26px;
+    }
+
+    .calendar-month-en::before,
+    .calendar-month-en::after {
+      content: '';
+      width: 38px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0.7;
     }
 
     .calendar-grid {
@@ -311,18 +334,24 @@
     }
 
     .calendar-grid .day-header {
-      font-size: 11px;
+      font-family: 'Noto Serif KR', serif;
+      font-weight: 400;
+      font-size: 10px;
       color: var(--text-light);
-      padding: 8px 0;
-      letter-spacing: 1px;
+      padding: 6px 0 12px;
+      letter-spacing: 2px;
+      border-bottom: 1px solid rgba(184, 168, 138, 0.45);
+      margin-bottom: 8px;
     }
 
     .calendar-grid .day-header:first-child { color: #C9786C; }
     .calendar-grid .day-header:last-child { color: #6B8EC9; }
 
     .calendar-grid .day {
-      padding: 8px 0;
+      padding: 11px 0;
       color: var(--text);
+      font-family: 'Noto Serif KR', serif;
+      font-weight: 400;
     }
 
     .calendar-grid .day.empty { color: transparent; }
@@ -330,8 +359,7 @@
     .calendar-grid .day.saturday { color: #6B8EC9; }
 
     .calendar-grid .day.highlight {
-      background: var(--primary);
-      color: var(--white);
+      color: var(--primary);
       border-radius: 50%;
       width: 32px;
       height: 32px;
@@ -339,13 +367,35 @@
       align-items: center;
       justify-content: center;
       margin: 0 auto;
+      font-weight: 500;
+      font-style: italic;
+      letter-spacing: 0;
+      box-shadow:
+        inset 0 0 0 1.5px rgba(139, 115, 85, 0.6),
+        0 0 10px rgba(139, 115, 85, 0.10);
     }
 
     .calendar-time {
       margin-top: 24px;
+      padding-top: 22px;
+      font-family: 'Noto Serif KR', serif;
+      font-weight: 300;
       font-size: 14px;
       color: var(--text);
       letter-spacing: 2px;
+      position: relative;
+    }
+
+    .calendar-time::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0.45;
     }
 
     .calendar-time .detail {
@@ -353,12 +403,14 @@
       font-size: 13px;
       color: var(--text-light);
       margin-top: 12px;
+      letter-spacing: 2px;
     }
 
     /* D-Day Counter */
     .dday-counter {
       margin-top: 32px;
-      max-width: 340px;
+      width: 100%;
+      max-width: 380px;
       margin-left: auto;
       margin-right: auto;
       text-align: center;
@@ -366,60 +418,86 @@
 
     .dday-boxes {
       display: flex;
-      align-items: center;
-      gap: 8px;
+      width: 100%;
+      align-items: stretch;
+      gap: 0;
+      border-bottom: 1px solid rgba(184, 168, 138, 0.32);
+      padding-bottom: 8px;
     }
 
     .dday-item {
-      background: #f2f0ec;
-      border-radius: 12px;
       flex: 1;
-      padding: 12px 0 14px;
+      padding: 6px 0 10px;
       text-align: center;
     }
 
     .dday-item .label {
-      font-family: 'Noto Sans KR', sans-serif;
-      font-weight: 400;
-      font-size: 11px;
-      color: #999;
-      letter-spacing: 1px;
+      font-family: 'Noto Serif KR', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: 9px;
+      color: var(--primary-light);
+      letter-spacing: 3px;
       text-transform: uppercase;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
 
     .dday-item .number {
       font-family: 'Noto Serif KR', serif;
-      font-weight: 600;
-      font-size: 28px;
-      color: var(--text);
+      font-weight: 300;
+      font-size: 32px;
+      color: var(--primary);
       line-height: 1;
+      letter-spacing: 2px;
     }
 
     .dday-colon {
-      font-family: 'Noto Serif KR', serif;
-      font-size: 24px;
-      font-weight: 300;
-      color: #bbb;
-      padding-top: 12px;
+      width: 1px;
+      align-self: stretch;
+      background: linear-gradient(180deg, transparent, rgba(184, 168, 138, 0.4) 25%, rgba(184, 168, 138, 0.4) 75%, transparent);
+      font-size: 0;
     }
 
     .dday-message {
-      margin-top: 24px;
+      margin-top: 22px;
       font-family: 'Noto Serif KR', serif;
+      font-weight: 300;
       font-size: 14px;
       color: var(--text);
-      letter-spacing: 1px;
+      letter-spacing: 2px;
     }
 
     .dday-message .heart {
-      color: #e74c3c;
-      margin: 0 2px;
+      font-size: 0;
+      margin: 0 5px;
+    }
+
+    .dday-message .heart::before {
+      content: '&';
+      font-family: 'Noto Serif KR', serif;
+      font-style: italic;
+      font-size: 14px;
+      color: var(--primary-light);
+      letter-spacing: 0;
     }
 
     .dday-message .highlight {
       color: var(--primary);
-      font-weight: 600;
+      font-weight: 500;
+      font-style: italic;
+      letter-spacing: 1px;
+      background: linear-gradient(180deg, transparent 62%, rgba(201, 185, 154, 0.28) 62%);
+      padding: 0 3px;
+    }
+
+    .dday-today {
+      font-family: 'Noto Serif KR', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: 17px;
+      letter-spacing: 4px;
+      color: var(--primary);
+      padding: 18px 0;
     }
 
     /* Gallery */
@@ -914,6 +992,7 @@
     <div class="divider"></div>
     <div class="calendar-box">
       <p class="calendar-month">2026년 6월</p>
+      <p class="calendar-month-en">June &middot; 2026</p>
       <div class="calendar-grid">
         <span class="day-header">SUN</span>
         <span class="day-header">MON</span>
@@ -1239,7 +1318,7 @@
       const diff = wedding - now;
 
       if (diff <= 0) {
-        document.getElementById('ddayCounter').innerHTML = '<p style="color:var(--primary); font-size:16px;">Today is the day!</p>';
+        document.getElementById('ddayCounter').innerHTML = '<p class="dday-today">Today is the day</p>';
         return;
       }
 
