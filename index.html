@@ -1049,8 +1049,7 @@
     <div class="divider"></div>
     <p class="location-name">SW컨벤션센터</p>
     <p class="location-detail">
-      서울특별시 종로구 지봉로 19 시즌빌딩 11층<br>
-      (지번: 종로구 창신동 328-18)
+      서울특별시 종로구 지봉로 19 시즌빌딩 11층
     </p>
     <div class="map-inline">
       <iframe
@@ -1059,15 +1058,15 @@
       </iframe>
     </div>
     <div class="map-buttons">
-      <a class="map-btn" href="https://map.kakao.com/link/to/서울 종로구 창신동 328-18,37.571699,127.012610" target="_blank" rel="noopener">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21s-8-7.5-8-13a8 8 0 1 1 16 0c0 5.5-8 13-8 13z"/><circle cx="12" cy="8" r="3"/></svg>
-        카카오맵 길찾기
+      <a class="map-btn" href="kakaonavi://navigate?name=서울 종로구 지봉로 19&x=127.015253&y=37.571747&coord_type=wgs84" onclick="openKakaoNavi(event)">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11l18-7-7 18-2-8-9-3z"/></svg>
+        카카오네비
       </a>
-      <a class="map-btn" href="https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%20%EC%A2%85%EB%A1%9C%EA%B5%AC%20%EC%B0%BD%EC%8B%A0%EB%8F%99%20328-18" target="_blank" rel="noopener">
+      <a class="map-btn" href="https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%20%EC%A2%85%EB%A1%9C%EA%B5%AC%20%EC%A7%80%EB%B4%89%EB%A1%9C%2019" target="_blank" rel="noopener">
         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21s-8-7.5-8-13a8 8 0 1 1 16 0c0 5.5-8 13-8 13z"/><circle cx="12" cy="8" r="3"/></svg>
         네이버지도
       </a>
-      <a class="map-btn" href="tmap://route?goalname=서울 종로구 창신동 328-18&goalx=127.012610&goaly=37.571699" onclick="openTmap(event)">
+      <a class="map-btn" href="tmap://route?goalname=서울 종로구 지봉로 19&goalx=127.015253&goaly=37.571747" onclick="openTmap(event)">
         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11l18-7-7 18-2-8-9-3z"/></svg>
         T맵으로 안내
       </a>
@@ -1084,7 +1083,7 @@
       <p>동묘앞역 6번 출구 하차: 142 / 동묘앞역 하차: 1014</p>
       <p>동대문역.흥인지문(중) 하차: 101, 103, 111, 105, 144, 152, 201, 206, 261, 262, 270, 271, 370, 420, 720, 721, 2112, 2233, 9301, 6002</p>
       <p class="transport-title">자가용</p>
-      <p>네비게이션 "서울 종로구 창신동 328-18" 검색</p>
+      <p>네비게이션 "서울 종로구 지봉로 19" 검색</p>
     </div>
   </section>
 
@@ -1436,8 +1435,29 @@
       window.addEventListener('blur', () => clearTimeout(fallback), { once: true });
     }
 
+    function openKakaoNavi(e) {
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      if (!isMobile) {
+        e.preventDefault();
+        window.open('https://map.kakao.com/link/to/서울 종로구 지봉로 19,37.571747,127.015253', '_blank', 'noopener');
+        return;
+      }
+      const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+      if (isIOS) {
+        e.preventDefault();
+        window.location.href = 'kakaonavi-wguide://navigate?name=' + encodeURIComponent('서울 종로구 지봉로 19') + '&x=127.015253&y=37.571747&coord_type=wgs84';
+      }
+      const fallback = setTimeout(() => {
+        window.location.href = isIOS
+          ? 'https://apps.apple.com/kr/app/id417698849'
+          : 'https://play.google.com/store/apps/details?id=com.locnall.KimGiSa';
+      }, 2000);
+      window.addEventListener('pagehide', () => clearTimeout(fallback), { once: true });
+      window.addEventListener('blur', () => clearTimeout(fallback), { once: true });
+    }
+
     function copyAddress() {
-      const addr = '서울특별시 종로구 창신동 328-18';
+      const addr = '서울특별시 종로구 지봉로 19';
       navigator.clipboard.writeText(addr).then(() => {
         showToast('주소가 복사되었습니다');
       }).catch(() => {
