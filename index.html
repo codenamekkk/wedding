@@ -38,7 +38,6 @@
   <link rel="preload" as="image" href="images/메인사진.webp" type="image/webp" fetchpriority="high">
 
   <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js" crossorigin="anonymous"></script>
-  <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=d44321f235374c5e1f4af4f7f6163386&autoload=false" defer></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -570,8 +569,7 @@
       overflow: hidden;
     }
 
-    .map-inline iframe,
-    .map-inline #kakaoMap {
+    .map-inline iframe {
       width: 100%;
       height: 100%;
       border: none;
@@ -1054,13 +1052,16 @@
       서울특별시 종로구 지봉로 19 시즌빌딩 11층
     </p>
     <div class="map-inline">
-      <div id="kakaoMap"></div>
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d500!2d127.01261037706054!3d37.571699872037186!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca33764b41d69%3A0x2c3cf1ab4d71e230!2zU1fsu6jrsqTshZjshLzthLA!5e0!3m2!1sko!2skr!4v1775523434685!5m2!1sko!2skr"
+        style="border:0;" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
     </div>
     <div class="map-buttons">
-      <a class="map-btn" href="kakaonavi://navigate?name=서울 종로구 지봉로 19&x=127.015253&y=37.571747&coord_type=wgs84" onclick="openKakaoNavi(event)">
+      <button class="map-btn" onclick="openKakaoNavi(event)">
         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11l18-7-7 18-2-8-9-3z"/></svg>
         카카오네비
-      </a>
+      </button>
       <a class="map-btn" href="https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%20%EC%A2%85%EB%A1%9C%EA%B5%AC%20%EC%A7%80%EB%B4%89%EB%A1%9C%2019" target="_blank" rel="noopener">
         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21s-8-7.5-8-13a8 8 0 1 1 16 0c0 5.5-8 13-8 13z"/><circle cx="12" cy="8" r="3"/></svg>
         네이버지도
@@ -1399,52 +1400,6 @@
       Kakao.init('d44321f235374c5e1f4af4f7f6163386');
     }
 
-    // ===== Kakao Map Init =====
-    function showKakaoMapFallback(msg) {
-      const container = document.getElementById('kakaoMap');
-      if (!container) return;
-      container.style.display = 'flex';
-      container.style.alignItems = 'center';
-      container.style.justifyContent = 'center';
-      container.style.background = '#f3f1ec';
-      container.style.color = '#666';
-      container.style.fontSize = '13px';
-      container.style.padding = '0 16px';
-      container.style.textAlign = 'center';
-      container.innerHTML = '<a href="https://map.kakao.com/link/map/SW컨벤션센터,37.571747,127.015253" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;">' + msg + '<br>(클릭하여 카카오맵에서 보기)</a>';
-    }
-    function initKakaoMap() {
-      if (!window.kakao || !window.kakao.maps) {
-        console.error('[KakaoMap] SDK 미로딩: window.kakao =', window.kakao);
-        showKakaoMapFallback('지도를 불러오지 못했습니다');
-        return;
-      }
-      try {
-        kakao.maps.load(function () {
-          const container = document.getElementById('kakaoMap');
-          if (!container) return;
-          const center = new kakao.maps.LatLng(37.571747, 127.015253);
-          const map = new kakao.maps.Map(container, { center: center, level: 3 });
-          new kakao.maps.Marker({ map: map, position: center });
-          map.setZoomable(false);
-        });
-      } catch (err) {
-        console.error('[KakaoMap] 초기화 실패:', err);
-        showKakaoMapFallback('지도를 불러오지 못했습니다');
-      }
-    }
-    window.addEventListener('load', function () {
-      // load 시점에는 defer 스크립트도 모두 실행 완료된 상태
-      setTimeout(function () {
-        if (!window.kakao || !window.kakao.maps) {
-          console.error('[KakaoMap] dapi.kakao.com SDK 로드 실패 — 도메인 미등록 또는 네트워크 문제 가능');
-          showKakaoMapFallback('지도를 불러오지 못했습니다');
-          return;
-        }
-        initKakaoMap();
-      }, 0);
-    });
-
     // ===== Share =====
     function shareKakao() {
       if (window.Kakao && Kakao.isInitialized()) {
@@ -1481,24 +1436,22 @@
     }
 
     function openKakaoNavi(e) {
+      if (e) e.preventDefault();
       const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
       if (!isMobile) {
-        e.preventDefault();
         window.open('https://map.kakao.com/link/to/서울 종로구 지봉로 19,37.571747,127.015253', '_blank', 'noopener');
         return;
       }
-      const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
-      if (isIOS) {
-        e.preventDefault();
-        window.location.href = 'kakaonavi-wguide://navigate?name=' + encodeURIComponent('서울 종로구 지봉로 19') + '&x=127.015253&y=37.571747&coord_type=wgs84';
+      if (window.Kakao && Kakao.isInitialized() && Kakao.Navi) {
+        Kakao.Navi.start({
+          name: '서울 종로구 지봉로 19',
+          x: 127.015253,
+          y: 37.571747,
+          coordType: 'wgs84'
+        });
+      } else {
+        showToast('카카오내비를 불러오는 중입니다. 잠시 후 다시 시도해주세요.');
       }
-      const fallback = setTimeout(() => {
-        window.location.href = isIOS
-          ? 'https://apps.apple.com/kr/app/id417698849'
-          : 'https://play.google.com/store/apps/details?id=com.locnall.KimGiSa';
-      }, 2000);
-      window.addEventListener('pagehide', () => clearTimeout(fallback), { once: true });
-      window.addEventListener('blur', () => clearTimeout(fallback), { once: true });
     }
 
     function copyAddress() {
