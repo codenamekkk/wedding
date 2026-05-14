@@ -422,8 +422,8 @@
       position: absolute;
       inset: 0;
       background: linear-gradient(135deg, #E5A899 0%, #C9786C 60%, #B66A60 100%);
-      -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><path d='M16 28 C6 20 1 14 1 9 C1 4 4 1 8 1 C11 1 14 3 16 6 C18 3 21 1 24 1 C28 1 31 4 31 9 C31 14 26 20 16 28 Z'/></svg>");
-              mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><path d='M16 28 C6 20 1 14 1 9 C1 4 4 1 8 1 C11 1 14 3 16 6 C18 3 21 1 24 1 C28 1 31 4 31 9 C31 14 26 20 16 28 Z'/></svg>");
+      -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><path d='M16 30 C6 22 1 16 1 11 C1 6 4 3 8 3 C11 3 14 5 16 8 C18 5 21 3 24 3 C28 3 31 6 31 11 C31 16 26 22 16 30 Z'/></svg>");
+              mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><path d='M16 30 C6 22 1 16 1 11 C1 6 4 3 8 3 C11 3 14 5 16 8 C18 5 21 3 24 3 C28 3 31 6 31 11 C31 16 26 22 16 30 Z'/></svg>");
       -webkit-mask-size: contain;
               mask-size: contain;
       -webkit-mask-repeat: no-repeat;
@@ -537,20 +537,6 @@
       font-size: 14px;
       color: var(--text);
       letter-spacing: 2px;
-    }
-
-    .dday-message .heart {
-      font-size: 0;
-      margin: 0 5px;
-    }
-
-    .dday-message .heart::before {
-      content: '&';
-      font-family: 'Noto Serif KR', serif;
-      font-style: italic;
-      font-size: 14px;
-      color: var(--primary-light);
-      letter-spacing: 0;
     }
 
     .dday-message .highlight {
@@ -1421,7 +1407,7 @@
           <span class="dday-colon">:</span>
           <div class="dday-item"><div class="label">초</div><div class="number">${pad(seconds)}</div></div>
         </div>
-        <p class="dday-message">태원 <span class="heart">&#10084;</span> 나나의 결혼식이 <span class="highlight">${days}일</span> 남았습니다.</p>
+        <p class="dday-message">우리의 결혼식이 <span class="highlight">${days}일</span> 남았습니다.</p>
       `;
     }
 
